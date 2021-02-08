@@ -1,40 +1,26 @@
-const express = require("express");
-const app = express();
-const pg = require("pg");
-
-var pgPool = new pg.Pool({
-    database: "database_development",
-    user: "postgres",
-    password: "postgres",
+const { Client } = require("pg");
+var dbopt = {
+    user: "sdnspf",
+    password: "$SdnsPf",
     host: "localhost",
-    port: 5432,
-});
+    port: "5432",
+    database: "sdnspf-vvtdb"
+}
+const pg = new Client(dbopt);
 
-app.get("/", function (req, res) {
-    res.send("Hello World!");
-});
+var network_id = 'aaa'
 
-app.post("/create", function (req, res) {
-    var query = {
-        text:
-            'INSERT INTO public."TestClasses" (id, attr1, "createdAt", "updatedAt") VALUES($1, $2, current_timestamp, current_timestamp)',
-        values: [10000, "test"],
-    };
+pg.connect()
+    .cache((e => console.log(e)));
 
-    pgPool.connect(function (err, client) {
-        if (err) {
-            console.log(err);
-        } else {
-            client
-                .query(query)
-                .then(() => {
-                    res.send("Data Created.");
-                })
-                .catch((e) => {
-                    console.error(e.stack);
-                });
-        }
+const aptask_query = "INSERT INTO vtm_approval_check_task (group_id) values ($1)";
+pg.query(aptask_query, [ network_id ])
+    .then("select * from vtm_approval_check_task")
+    .then(results => console.table(results.rows))
+    .cache(err => {
+        console.log(err);
+        pg.end();
+    })
+    .then(() => {
+        pg.end();
     });
-});
-
-app.listen(3000, () => console.log("Example app listening on port 3000!"));
