@@ -1,0 +1,23 @@
+{
+  "name": "nodejs_exercise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tarusoopy/nodejs_exercise.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tarusoopy/nodejs_exercise/issues"
+  },
+  "homepage": "https://github.com/tarusoopy/nodejs_exercise#readme"
+}
